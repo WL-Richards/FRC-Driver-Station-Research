@@ -4,7 +4,9 @@ A mapping and just general information dump of information regarding the communi
 
 # General Overview:
 - All packets involving Strings and other exact data being sent to/from the robot are encoded as TCP packets to assure that the data isn't lost.
-
+- Constant UDP Packets of size 6 (DS -> Robot) and 8 (Robot -> DS) are sent across the network, looks like a heart beat of some kinda.
+- Packet size increases on the DS side from 6 to 21 when a joystick is connected.
+- The first 2 bytes of packets are an ever increasing packet ID. This ID is kept uniform on packets to the robot and from the robot. See Sample in `To Robot` Section.
 <br>
 
 # Technical Details
@@ -38,7 +40,7 @@ Information regarding which protocols communicate what information
 ### <u>To Robot:</u>
 <br>
 
-- It would appear that when a controller is plugged in a **TCP** packet is sent to the Robot with the windows based controller name
+- It would appear that when a controller is plugged in a TCP packet is sent to the Robot with the windows based controller name. There is also a large sum of additional data there. Which I am not sure of the meaning.
   - ```
     0000   f8 d9 b8 13 19 02 f8 34 41 65 8c 1d 08 00 45 00   .......4Ae....E.
     0010   00 b1 ff a6 40 00 80 06 8f 37 0a 40 2b e7 0a 40   ....@....7.@+..@
@@ -55,10 +57,44 @@ Information regarding which protocols communicate what information
 
     * Controller (Xbox One For Windows) *
     ```
+<br>
+
+- When looking closer at packets of length 6 being sent to the robot you can see that the first 2 bytes of data are an always increasing packet ID. While in this sample set the other 4 bytes appear static (Full File: `UDP_DS_To_Robot_6Bytes.txt`).
+  - ```
+      | 0b f0 | 01 00 10 04   +..*.V..........
+      | 0b f1 | 01 00 10 04   +..*.V..........
+      | 0b f2 | 01 00 10 04   +..*.V..........
+      | 0b f3 | 01 00 10 04   +..*.V..........
+      | 0b f4 | 01 00 10 04   +..*.V..........
+      | 0b f5 | 01 00 10 04   +..*.V..........
+      | 0b f6 | 01 00 10 04   +..*.V..........
+      | 0b f7 | 01 00 10 04   +..*.V..........
+      | 0b f8 | 01 00 10 04   +..*.V..........
+      | 0b f9 | 01 00 10 04   +..*.V..........
+      | 0b fa | 01 00 10 04   +..*.V..........
+      | 0b fb | 01 00 10 04   +..*.V..........
+      | 0b fc | 01 00 10 04   +..*.V..........
+      | 0b fd | 01 00 10 04   +..*.V..........
+      | 0b fe | 01 00 10 04   +..*.V..........
+      | 0b ff | 01 00 10 04   +..*.V..........
+      | 0c 00 | 01 00 10 04   +..*.V..........
+    ```
+     The final packet within the capture looks like this:
+    
+    ```
+      | 21 ef | 01 00 10 04 0e 0c 06 fb 02 00 00 fe 00 10   !...............
+      00 00 01 ff ff                                    .....
+    ```
+
+    While the packet is longer the increasing packet ID is still present.
+<br>
+
+- At a certain point the data being sent to the robot switches from being a more or less constant 6 bytes of data to 21 bytes. This would appear as though joystick data is possibly being sent over the network now.
+  - This is further supported by the fact that the TCP packet sent right before this increase in data is a connection notification of a controller.
 ### <u>To Diver Station:</u>
 <br>
 
-- It also looks as though all messages that the Driver Station receives that are displayed in the console window are sent over **TCP**
+- It also looks as though all messages that the Driver Station receives that are displayed in the console window are sent over TCP
     - ```
         0000   f8 34 41 65 8c 1d f8 d9 b8 13 19 02 08 00 45 00   .4Ae..........E.
         0010   00 e5 0a 08 40 00 3f 06 c5 a2 0a 40 2b 02 0a 40   ....@.?....@+..@
@@ -89,6 +125,16 @@ Information regarding which protocols communicate what information
     0040   00 41 01 be 22 41 c7 87 2a 00 00 00 00 00 00 00   .A.."A..*.......
     0050   00 41 25 68 f5 0f 0e 00 00 00 00 00 00 00 00 00   .A%h............
     0060   00 00 01 00 80                                    .....
+    ```
+<br>
+
+- Packet seemingly containing timezone information as warranted by the string `PST8DT` within the packet
+  - ```
+    0000   f8 d9 b8 13 19 02 f8 34 41 65 8c 1d 08 00 45 00   .......4Ae....E.
+    0010   00 37 ff 74 00 00 80 11 cf d8 0a 40 2b e7 0a 40   .7.t.......@+..@
+    0020   2b 02 ee 2a 04 56 00 23 8c 06 13 7a 01 00 10 04   +..*.V.#...z....
+    0030   0b 0f 00 03 77 c7 04 06 14 01 05 79 08 10 50 53   ....w......y..PS
+    0040   54 38 50 44 54                                    T8PDT
     ```
 <br>
 <br>
