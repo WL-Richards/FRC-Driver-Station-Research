@@ -57,7 +57,7 @@ Information regarding which protocols communicate what information
     ```
 <br>
 
-- When looking closer at packets of length 6 being sent to the robot you can see that the first 2 bytes of data are an always increasing packet ID. While in this sample set the other 4 bytes appear static (Full File: `UDP_DS_To_Robot_6Bytes.txt`).
+- When looking closer at packets of length 6 being sent to the robot you can see that the first 2 bytes of data are an always increasing packet ID. While in this sample set the other 4 bytes appear static possibly representing the current robot states (Full File: `UDP_DS_To_Robot_6Bytes.txt`).
   - ```
       | 0b f0 | 01 00 10 04   +..*.V..........
       | 0b f1 | 01 00 10 04   +..*.V..........
