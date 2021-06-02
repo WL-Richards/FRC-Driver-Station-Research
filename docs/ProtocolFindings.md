@@ -1,5 +1,5 @@
 # Communication Protocols
-    A mapping and just general information dump of information regarding the communication protocols between FRC robots and the driver station
+A mapping and just general information dump of information regarding the communication protocols between FRC robots and the driver station
 <br>
 
 # General Overview:
@@ -32,10 +32,12 @@
 
 ## Protocols
 ---
-    Information regarding which protocols communicate what information
+Information regarding which protocols communicate what information
 <br>
 
 ### <u>To Robot:</u>
+<br>
+
 - It would appear that when a controller is plugged in a **TCP** packet is sent to the Robot with the windows based controller name
   - ```
     0000   f8 d9 b8 13 19 02 f8 34 41 65 8c 1d 08 00 45 00   .......4Ae....E.
@@ -54,6 +56,8 @@
     * Controller (Xbox One For Windows) *
     ```
 ### <u>To Diver Station:</u>
+<br>
+
 - It also looks as though all messages that the Driver Station receives that are displayed in the console window are sent over **TCP**
     - ```
         0000   f8 34 41 65 8c 1d f8 d9 b8 13 19 02 08 00 45 00   .4Ae..........E.
@@ -75,6 +79,17 @@
 
       * Joystick Button 1 on port 0 not available, check if controller is plugged in[edu.wpi.first.wpilibj.DriverStation.reportJoystickUnpluggedWarning(DriverStation.java:1246) *
       ```
+      <br>
+- Abnormally Long UDP Packet Seemingly Right Before a RIO Reboot
+  - ```
+    0000   f8 34 41 65 8c 1d f8 d9 b8 13 19 02 08 00 45 00   .4Ae..........E.
+    0010   00 57 c0 dc 40 00 3f 11 0f 51 0a 40 2b 02 0a 40   .W..@.?..Q.@+..@
+    0020   2b e7 94 1f 04 7e 00 43 4a f0 1f 1f 01 00 31 0c   +....~.CJ.....1.
+    0030   38 00 22 05 02 42 30 7d 13 00 00 00 00 00 00 00   8."..B0}........
+    0040   00 41 01 be 22 41 c7 87 2a 00 00 00 00 00 00 00   .A.."A..*.......
+    0050   00 41 25 68 f5 0f 0e 00 00 00 00 00 00 00 00 00   .A%h............
+    0060   00 00 01 00 80                                    .....
+    ```
 <br>
 <br>
 
