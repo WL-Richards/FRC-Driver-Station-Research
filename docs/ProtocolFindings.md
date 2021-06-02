@@ -9,7 +9,7 @@
 
 # Technical Details
 
-## Ports
+## Port Mappings
 
 ### <b>Driver Station -> Robot</b>
 - UDP
@@ -20,6 +20,7 @@
     - Destination Port: 1740
 <br>
 <br>
+
 ### <b>Robot -> Driver Station</b>
 - UDP
     - Source Port: 37919
@@ -30,6 +31,7 @@
 <br>
 
 ## Protocols
+---
     Information regarding which protocols communicate what information
 <br>
 
@@ -77,4 +79,10 @@
 <br>
 
 # Additional Analysis 
-    The source of these observations are derived from the `FRC_RobotCAP.pcapng` file within this directory
+The source of these observations are derived from the `FRC_RobotCAP.pcapng` file within this directory
+- Capture Contains:
+  - Enabled/disabled the robot
+  - Connected a Joystick
+  - Restarted RIO
+  - Restarted Robot Code
+  - Sent joystick inputs while enabled to the robot
