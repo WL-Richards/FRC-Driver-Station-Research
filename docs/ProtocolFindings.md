@@ -20,8 +20,6 @@ A mapping and just general information dump of information regarding the communi
 - TCP
     - Source Port: 55095
     - Destination Port: 1740
-<br>
-<br>
 
 ### <b>Robot -> Driver Station</b>
 - UDP
